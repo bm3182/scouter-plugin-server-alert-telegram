@@ -277,27 +277,41 @@ public class TelegramPlugin {
 
     @ServerPlugin(PluginConstants.PLUGIN_SERVER_XLOG)
     public void xlog(XLogPack pack) {
-        try {
-            int elapsedThreshold = conf.getInt("ext_plugin_elapsed_time_threshold", 0);
-
-            if (elapsedThreshold != 0 && pack.elapsed > elapsedThreshold) {
-                String serviceName = TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.SERVICE, pack.service);
-
+        if (conf.getBoolean("ext_plugin_exception_xlog_enabled", false )) {
+            if (pack.error != 0) {
+                String date = DateUtil.yyyymmdd(pack.endTime);
+                String service = TextRD.getString(date, TextTypes.SERVICE, pack.service);
                 AlertPack ap = new AlertPack();
-
-                ap.level = AlertLevel.WARN;
+                ap.level = AlertLevel.ERROR;
                 ap.objHash = pack.objHash;
-                ap.title = "Elapsed time exceed a threshold.";
-                ap.message = "[" + AgentManager.getAgentName(pack.objHash) + "] " 
-                                    + pack.service + "(" + serviceName + ") " 
-                                    + "elapsed time(" + pack.elapsed + " ms) exceed a threshold.";
+                ap.title = "xlog Error";
+                ap.message = service + " - " + TextRD.getString(date, TextTypes.ERROR, pack.error);
                 ap.time = System.currentTimeMillis();
                 ap.objType = AgentManager.getAgent(pack.objHash).objType;
-
                 alert(ap);
             }
-        } catch (Exception e) {
-            Logger.printStackTrace(e);
+            try {
+                int elapsedThreshold = conf.getInt("ext_plugin_elapsed_time_threshold", 0);
+
+                if (elapsedThreshold != 0 && pack.elapsed > elapsedThreshold) {
+                    String serviceName = TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.SERVICE, pack.service);
+
+                    AlertPack ap = new AlertPack();
+
+                    ap.level = AlertLevel.WARN;
+                    ap.objHash = pack.objHash;
+                    ap.title = "Elapsed time exceed a threshold.";
+                    ap.message = "[" + AgentManager.getAgentName(pack.objHash) + "] "
+                            + pack.service + "(" + serviceName + ") "
+                            + "elapsed time(" + pack.elapsed + " ms) exceed a threshold.";
+                    ap.time = System.currentTimeMillis();
+                    ap.objType = AgentManager.getAgent(pack.objHash).objType;
+
+                    alert(ap);
+                }
+            } catch (Exception e) {
+                Logger.printStackTrace(e);
+            }
         }
     }
 
