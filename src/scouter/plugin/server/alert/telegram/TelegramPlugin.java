@@ -208,7 +208,8 @@ public class TelegramPlugin {
 
                             HttpPost post = new HttpPost(url);
                             post.addHeader("Content-Type", "application/json");
-                            post.setEntity(new StringEntity(param));
+                            //한글 깨짐 방지
+                            post.setEntity(new StringEntity(param, "UTF-8"));
 
                             CloseableHttpClient client = HttpClientBuilder.create().build();
 
@@ -287,7 +288,7 @@ public class TelegramPlugin {
                 ap.title = "xlog Error";
                 ap.message = service + " - " + TextRD.getString(date, TextTypes.ERROR, pack.error);
                 ap.time = System.currentTimeMillis();
-                ap.objType = AgentManager.getAgent(pack.objHash).objType;
+                ap.objType = "scouter";
                 alert(ap);
             }
             try {
