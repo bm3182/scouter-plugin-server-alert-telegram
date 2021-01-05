@@ -153,9 +153,9 @@ public class TelegramPlugin {
                             }
 
                             try {
-                                String ignoreNamePattern = conf.getValue("ext_plugin_ignore_name_patterns");
-                                String ignoreTitlePattern = conf.getValue("ext_plugin_ignore_title_patterns");
-                                String ignoreMessagePattern = conf.getValue("ext_plugin_ignore_message_patterns");
+                                String ignoreNamePattern = conf.getValue("ext_plugin_ignore_telegram_name_patterns");
+                                String ignoreTitlePattern = conf.getValue("ext_plugin_ignore_telegram_title_patterns");
+                                String ignoreMessagePattern = conf.getValue("ext_plugin_ignore_telegram_message_patterns");
 
                                 if (ignoreNamePattern != null && !"".equals(ignoreNamePattern)) {
                                     for (String pattern : ignoreNamePattern.split(",")) {
@@ -183,7 +183,7 @@ public class TelegramPlugin {
                                     }
                                 }
 
-                                if (conf.getBoolean("ext_plugin_ignore_continuous_dup_alert", false) && lastPack != null) {
+                                if (conf.getBoolean("ext_plugin_ignore_telegram_continuous_dup_alert", false) && lastPack != null) {
                                     long diff = System.currentTimeMillis() - lastSentTimestamp;
                                     if (lastPack.objHash == pack.objHash && lastPack.title.equals(pack.title) && diff < DateUtil.MILLIS_PER_HOUR) {
                                         return;
@@ -278,7 +278,7 @@ public class TelegramPlugin {
 
     @ServerPlugin(PluginConstants.PLUGIN_SERVER_XLOG)
     public void xlog(XLogPack pack) {
-        if (conf.getBoolean("ext_plugin_exception_xlog_enabled", false )) {
+        if (conf.getBoolean("ext_plugin_exception_xlog_telegram_enabled", false )) {
             if (pack.error != 0) {
                 String service = TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.SERVICE, pack.service);
 
