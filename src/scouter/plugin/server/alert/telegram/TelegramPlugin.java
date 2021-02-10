@@ -345,6 +345,22 @@ public class TelegramPlugin {
                     long gcTimeThreshold = conf.getLong("ext_plugin_gc_time_threshold", 0);
                     long gcTime = pack.data.getLong(CounterConstants.JAVA_GC_TIME);
 
+                    long heapUsedThreshold = conf.getLong("ext_plugin_heap_used_threshold", 0);
+                    long heapUsed = pack.data.getLong(CounterConstants.JAVA_HEAP_USED);
+
+                    if (heapUsedThreshold != 0 && heapUsed > heapUsedThreshold) {
+                        AlertPack ap = new AlertPack();
+
+                        ap.level = AlertLevel.FATAL;
+                        ap.objHash = objHash;
+                        ap.title = "Heap used exceed a threshold.";
+                        ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                        ap.time = System.currentTimeMillis();
+                        ap.objType = objType;
+
+                        alert(ap);
+                    }
+
                     if (gcTimeThreshold != 0 && gcTime > gcTimeThreshold) {
                         AlertPack ap = new AlertPack();
 
