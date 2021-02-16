@@ -279,28 +279,45 @@ public class TelegramPlugin {
     @ServerPlugin(PluginConstants.PLUGIN_SERVER_XLOG)
     public void xlog(XLogPack pack) {
         if (conf.getBoolean("ext_plugin_exception_xlog_telegram_enabled", false )) {
+            String serviceName = TextRD.getString(DateUtil.datetime(pack.endTime), TextTypes.SERVICE, pack.service);
+            AlertPack ap = new AlertPack();
             if (pack.error != 0) {
-                String service = TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.SERVICE, pack.service);
-
-                AlertPack ap = new AlertPack();
-
                 ap.level = AlertLevel.ERROR;
                 ap.objHash = pack.objHash;
                 ap.title = "xlog Error";
-                ap.message = service + " - " + TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.ERROR, pack.error);
+                ap.message = serviceName + " - " + TextRD.getString(DateUtil.datetime(pack.endTime), TextTypes.ERROR, pack.error);
                 ap.time = System.currentTimeMillis();
                 ap.objType = "scouter";
-
-                alert(ap);
             }
+            // Get agent Name
+            String name = AgentManager.getAgentName(pack.objHash) == null ? "N/A" : AgentManager.getAgentName(pack.objHash);
+
+            if ("/cjescwas01/escprd1".equals(name) || "/cjescwas02/escprd2".equals(name) || "/cjescwasdev/escdev".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_esc_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjwas03/expwas01".equals(name) || "/cjwas04/expwas02".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_exp_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjwas03/igap_was3".equals(name) || "/cjwas04/igap_was4".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_igap_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjwas03/tmsprd1-1".equals(name) || "/cjwas03/tmsprd1-2".equals(name) || "/cjwas04/tmsprd2-1".equals(name) || "/cjwas04/tmsprd2-2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_tms_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/gprtwas1/wise_prd11".equals(name) || "/gprtwas1/wise_prd12".equals(name) || "/gprtwas2/wise_prd21".equals(name) || "/gprtwas2/wise_prd22".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_wise_telegram_enabled", false )) {
+                    alert(ap);
+                }
+            }
+
             try {
                 int elapsedThreshold = conf.getInt("ext_plugin_elapsed_time_threshold", 0);
 
                 if (elapsedThreshold != 0 && pack.elapsed > elapsedThreshold) {
-                    String serviceName = TextRD.getString(DateUtil.yyyymmdd(pack.endTime), TextTypes.SERVICE, pack.service);
-
-                    AlertPack ap = new AlertPack();
-
                     ap.level = AlertLevel.WARN;
                     ap.objHash = pack.objHash;
                     ap.title = "Elapsed time exceed a threshold.";
