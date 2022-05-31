@@ -329,6 +329,10 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_cis_telegram_enabled", false )){
                     alert(ap);
                 }
+            } else if("/cjodswas01/odsprd01".equals(name) || "/cjodswas02/odsprd02".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_ods_telegram_enabled", false )){
+                    alert(ap);
+                }
             }
 
             try {
