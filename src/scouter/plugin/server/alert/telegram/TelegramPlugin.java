@@ -385,10 +385,24 @@ public class TelegramPlugin {
 
                     long heapUsedThreshold = conf.getLong("ext_plugin_heap_used_threshold", 0);
                     long heapUsedThreshold_wise = conf.getLong("ext_plugin_wise_heap_used_threshold", 0);
+                    long heapUsedThreshold_exp = conf.getLong("ext_plugin_exp_heap_used_threshold", 0);
                     long heapUsed = pack.data.getLong(CounterConstants.JAVA_HEAP_USED);
 
                     if("/gprtwas1/wise_prd11".equals(objName) || "/gprtwas1/wise_prd12".equals(objName) || "/gprtwas2/wise_prd21".equals(objName) || "/gprtwas2/wise_prd22".equals(objName)) {
                         if (heapUsedThreshold_wise != 0 && heapUsed > heapUsedThreshold_wise) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    } else if("/cjwas03/expwas01".equals(objName) || "/cjwas04/expwas02".equals(objName)) {
+                        if (heapUsedThreshold_exp != 0 && heapUsed > heapUsedThreshold_exp) {
                             AlertPack ap = new AlertPack();
 
                             ap.level = AlertLevel.FATAL;
