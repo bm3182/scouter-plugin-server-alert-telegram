@@ -134,7 +134,7 @@ public class TelegramPlugin {
                             String url = "https://api.telegram.org/bot" + token + "/sendMessage";
 
                             // Get the agent Name
-                            String name = AgentManager.getAgentName(pack.objHash) == null ? "N/A" : AgentManager.getAgentName(pack.objHash);
+                            String name = AgentManager.getAgentName(pack.objHash) == null ? "N/A" : (String) AgentManager.getAgentName(pack.objHash);
 
                             if (name.equals("N/A") && pack.message.endsWith("connected.")) {
                                 int idx = pack.message.indexOf("connected");
@@ -288,7 +288,7 @@ public class TelegramPlugin {
     @ServerPlugin(PluginConstants.PLUGIN_SERVER_XLOG)
     public void xlog(XLogPack pack) {
         if (conf.getBoolean("ext_plugin_exception_xlog_telegram_enabled", false )) {
-            String serviceName = TextRD.getString(DateUtil.datetime(pack.endTime), TextTypes.SERVICE, pack.service);
+            String serviceName = (String) TextRD.getString(DateUtil.datetime(pack.endTime), TextTypes.SERVICE, pack.service);
             AlertPack ap = new AlertPack();
             if (pack.error != 0) {
                 ap.level = AlertLevel.ERROR;
@@ -299,7 +299,7 @@ public class TelegramPlugin {
                 ap.objType = "scouter";
             }
             // Get agent Name
-            String name = AgentManager.getAgentName(pack.objHash) == null ? "N/A" : AgentManager.getAgentName(pack.objHash);
+            String name = AgentManager.getAgentName(pack.objHash) == null ? "N/A" : (String) AgentManager.getAgentName(pack.objHash);
 
             if ("/cjescwas01/escprd1".equals(name) || "/cjescwas02/escprd2".equals(name) || "/cjescwasdev/escdev".equals(name)) {
                 if (conf.getBoolean("ext_plugin_exception_xlog_esc_telegram_enabled", false )){
