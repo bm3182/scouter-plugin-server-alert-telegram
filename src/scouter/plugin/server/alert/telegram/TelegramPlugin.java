@@ -333,6 +333,10 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_ods_telegram_enabled", false )){
                     alert(ap);
                 }
+            } else if("/cjpcplwas1/cplwas1".equals(name) || "/cjpcplwas2/cplwas2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_cpl_telegram_enabled", false )){
+                    alert(ap);
+                }
             }
 
             try {
