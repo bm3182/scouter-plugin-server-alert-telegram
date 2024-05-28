@@ -341,6 +341,22 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_qms_telegram_enabled", false )){
                     alert(ap);
                 }
+            } else if("/cjirisap1/bmis_was1".equals(name) || "/cjemap/bmis_was2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_bmis_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjirisap1/iris_was1".equals(name) || "/cjemap/iris_was2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_iris_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cj-meta-app/cj-meta-app".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_meta_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else {
+                if (conf.getBoolean("ext_plugin_exception_xlog_telegram_enabled", false )){
+                    alert(ap);
+                }
             }
 
             try {
