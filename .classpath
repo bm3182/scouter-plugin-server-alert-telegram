@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
-		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/commons-codec-1.9.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/gson-2.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.5.2.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.4.4.jar"/>
-	<classpathentry kind="lib" path="lib/scouter-common.jar"/>
-	<classpathentry kind="lib" path="lib/scouter-server.jar"/>
-	<!--
-	<classpathentry combineaccessrules="false" kind="src" path="/scouter-common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/scouter-server"/>
-	-->
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/scouter-common.jar"/>
+	<classpathentry kind="lib" path="d:/scouter_workspace/scouter-plugin-server-alert-telegram/lib/scouter-server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
