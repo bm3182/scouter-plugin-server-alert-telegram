@@ -349,15 +349,31 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_iris_telegram_enabled", false )){
                     alert(ap);
                 }
+            } else if("/pEacA1/PFLS_LIVE1".equals(name) || "/pEacA2/PFLS_LIVE2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_pfls_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjwas03/amsprd_1".equals(name) || "/cjwas04/amsprd_2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_ams_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/cjwas03/cmsprd_1".equals(name) || "/cjwas04/cmsprd_2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_cms_telegram_enabled", false )){
+                    alert(ap);
+                }
             } else if("/cj-meta-app/cj-meta-app".equals(name)) {
                 if (conf.getBoolean("ext_plugin_exception_xlog_meta_telegram_enabled", false )){
+                    alert(ap);
+                }
+            } else if("/CJFPAAP/fta".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_fta_telegram_enabled", false )){
                     alert(ap);
                 }
             } else {
                 if (conf.getBoolean("ext_plugin_exception_xlog_telegram_enabled", false )){
                     alert(ap);
                 }
-            }
+            } 
 
             try {
                 int elapsedThreshold = conf.getInt("ext_plugin_elapsed_time_threshold", 0);
