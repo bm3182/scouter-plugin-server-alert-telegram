@@ -361,6 +361,10 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_cms_telegram_enabled", false )){
                     alert(ap);
                 }
+            } else if("/CJHANAROWAS01/HANARO_PRD1".equals(name) || "/CJHANAROWAS02/HANARO_PRD2".equals(name)) {
+                if (conf.getBoolean("ext_plugin_exception_xlog_hanaro_telegram_enabled", false )){
+                    alert(ap);
+                }
             } else if("/cj-meta-app/cj-meta-app".equals(name)) {
                 if (conf.getBoolean("ext_plugin_exception_xlog_meta_telegram_enabled", false )){
                     alert(ap);
