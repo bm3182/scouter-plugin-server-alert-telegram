@@ -1,4 +1,6 @@
 scouter\plugin\server\alert\teams\TeamsPlugin$1.class
 scouter\plugin\server\alert\teams\MonitoringGroupConfigure.class
+scouter\plugin\server\alert\teams\TeamsPlugin$SupplierWithEx.class
+scouter\plugin\server\alert\teams\TeamsPlugin$Mention.class
 scouter\plugin\server\alert\teams\TeamsPlugin.class
-scouter\plugin\server\alert\teams\TeamsPlugin$2.class
+scouter\plugin\server\alert\teams\TeamsPlugin$Routing.class
