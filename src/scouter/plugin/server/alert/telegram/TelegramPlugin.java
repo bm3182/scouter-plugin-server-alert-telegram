@@ -361,6 +361,10 @@ public class TelegramPlugin {
                 if (conf.getBoolean("ext_plugin_exception_xlog_cms_telegram_enabled", false )){
                     alert(ap);
                 }
+             } else if("/cjwingswas01/WINGS_PRD1-1".equals(name) || "/cjwingswas01/WINGS_PRD1-2".equals(name) || "/cjwingswas02/WINGS_PRD2-1".equals(name) || "/cjwingswas02/WINGS_PRD2-2".equals(name)) { 
+                if (conf.getBoolean("ext_plugin_exception_xlog_wings_telegram_enabled", false )){
+                    alert(ap);
+                }
             } else if("/CJHANAROWAS01/HANARO_PRD1".equals(name) || "/CJHANAROWAS02/HANARO_PRD2".equals(name)) {
                 if (conf.getBoolean("ext_plugin_exception_xlog_hanaro_telegram_enabled", false )){
                     alert(ap);
@@ -429,6 +433,7 @@ public class TelegramPlugin {
 
                     long heapUsedThreshold = conf.getLong("ext_plugin_heap_used_threshold", 0);
                     long heapUsedThreshold_8G = conf.getLong("ext_plugin_8G_heap_used_threshold", 0);
+                    long heapUsedThreshold_6G = conf.getLong("ext_plugin_6G_heap_used_threshold", 0);
                     long heapUsedThreshold_4G = conf.getLong("ext_plugin_4G_heap_used_threshold", 0);
                     long heapUsed = pack.data.getLong(CounterConstants.JAVA_HEAP_USED);
 
@@ -445,7 +450,20 @@ public class TelegramPlugin {
 
                             alert(ap);
                         }
-                    } else if("/cjwas03/expwas01".equals(objName) || "/cjwas04/expwas02".equals(objName) || "/cjwas03/qmswas1".equals(objName) || "/cjwas04/qmswas2".equals(objName) || "/cjwas03/amsprd_1".equals(objName) || "/cjwas04/amsprd_2".equals(objName) || "/cjwas03/cmsprd_1".equals(objName) || "/cjwas04/cmsprd_2".equals(objName) || "/cjirisap1/bmis_was1".equals(objName) || "/cjirisap1/iris_was1".equals(objName) || "/cjemap/bmis_was2".equals(objName) || "/cjemap/iris_was2".equals(objName)) {
+                    } else if("/pEacA1/PFLS_LIVE1".equals(objName) || "/pEacA1/PFLS_LIVE2".equals(objName)) {
+                        if (heapUsedThreshold_6G != 0 && heapUsed > heapUsedThreshold_6G) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    }else if("/cjwas03/expwas01".equals(objName) || "/cjwas04/expwas02".equals(objName) || "/cjwas03/qmswas1".equals(objName) || "/cjwas04/qmswas2".equals(objName) || "/cjwas03/amsprd_1".equals(objName) || "/cjwas04/amsprd_2".equals(objName) || "/cjwas03/cmsprd_1".equals(objName) || "/cjwas04/cmsprd_2".equals(objName) || "/cjirisap1/bmis_was1".equals(objName) || "/cjirisap1/iris_was1".equals(objName) || "/cjemap/bmis_was2".equals(objName) || "/cjemap/iris_was2".equals(objName)) {
                         if (heapUsedThreshold_4G != 0 && heapUsed > heapUsedThreshold_4G) {
                             AlertPack ap = new AlertPack();
 
