@@ -292,23 +292,91 @@ public class TeamsPlugin {
         String objType = null;
         String objFamily = null;
 
-        if (AgentManager.getAgent(objHash) != null) objType = AgentManager.getAgent(objHash).objType;
-        if (objType != null)
+        if (AgentManager.getAgent(objHash) != null) {
+            objType = AgentManager.getAgent(objHash).objType;
+        }
+
+        if (objType != null) {
             objFamily = CounterManager.getInstance().getCounterEngine().getObjectType(objType).getFamily().getName();
+        }
 
         try {
             if (CounterConstants.FAMILY_JAVAEE.equals(objFamily)) {
-                if (!javaeeObjHashList.contains(objHash)) javaeeObjHashList.add(objHash);
+                if (!javaeeObjHashList.contains(objHash)) {
+                    javaeeObjHashList.add(objHash);
+                }
+
                 if (pack.timetype == TimeTypeEnum.REALTIME) {
                     long gcTimeThreshold = groupConf.getLong("ext_plugin_gc_time_threshold", objType, 0);
                     long gcTime = pack.data.getLong(CounterConstants.JAVA_GC_TIME);
+
+                    long heapUsedThreshold = conf.getLong("ext_plugin_heap_used_threshold", 0);
+                    long heapUsedThreshold_8G = conf.getLong("ext_plugin_8G_heap_used_threshold", 0);
+                    long heapUsedThreshold_6G = conf.getLong("ext_plugin_6G_heap_used_threshold", 0);
+                    long heapUsedThreshold_4G = conf.getLong("ext_plugin_4G_heap_used_threshold", 0);
+                    long heapUsed = pack.data.getLong(CounterConstants.JAVA_HEAP_USED);
+
+                    if("/gprtwas1/wise_prd11".equals(objName) || "/gprtwas1/wise_prd12".equals(objName) || "/gprtwas2/wise_prd21".equals(objName) || "/gprtwas2/wise_prd22".equals(objName)) {
+                        if (heapUsedThreshold_8G != 0 && heapUsed > heapUsedThreshold_8G) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    } else if("/pEacA1/PFLS_LIVE1".equals(objName) || "/pEacA1/PFLS_LIVE2".equals(objName)) {
+                        if (heapUsedThreshold_6G != 0 && heapUsed > heapUsedThreshold_6G) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    }else if("/cjwas03/expwas01".equals(objName) || "/cjwas04/expwas02".equals(objName) || "/cjwas03/qmswas1".equals(objName) || "/cjwas04/qmswas2".equals(objName) || "/cjwas03/amsprd_1".equals(objName) || "/cjwas04/amsprd_2".equals(objName) || "/cjwas03/cmsprd_1".equals(objName) || "/cjwas04/cmsprd_2".equals(objName) || "/cjirisap1/bmis_was1".equals(objName) || "/cjirisap1/iris_was1".equals(objName) || "/cjemap/bmis_was2".equals(objName) || "/cjemap/iris_was2".equals(objName)) {
+                        if (heapUsedThreshold_4G != 0 && heapUsed > heapUsedThreshold_4G) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    } else {
+                        if (heapUsedThreshold != 0 && heapUsed > heapUsedThreshold) {
+                            AlertPack ap = new AlertPack();
+
+                            ap.level = AlertLevel.FATAL;
+                            ap.objHash = objHash;
+                            ap.title = "Heap used exceed a threshold.";
+                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
+                            ap.time = System.currentTimeMillis();
+                            ap.objType = objType;
+
+                            alert(ap);
+                        }
+                    }
 
                     if (gcTimeThreshold != 0 && gcTime > gcTimeThreshold) {
                         AlertPack ap = new AlertPack();
                         ap.level = AlertLevel.WARN; ap.objHash = objHash;
                         ap.title = "GC time exceed a threshold.";
                         ap.message = objName + "'s GC time(" + gcTime + " ms) exceed a threshold.";
-                        ap.time = System.currentTimeMillis(); ap.objType = objType;
+                        ap.time = System.currentTimeMillis(); 
+                        ap.objType = objType;
                         alert(ap);
                     }
                 }
