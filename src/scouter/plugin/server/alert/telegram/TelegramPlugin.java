@@ -450,7 +450,7 @@ public class TelegramPlugin {
 
                             alert(ap);
                         }
-                    } else if("/pEacA1/PFLS_LIVE1".equals(objName) || "/pEacA1/PFLS_LIVE2".equals(objName)) {
+                    } else if("/pEacA1/PFLS_LIVE1".equals(objName) || "/pEacA2/PFLS_LIVE2".equals(objName)) {
                         if (heapUsedThreshold_6G != 0 && heapUsed > heapUsedThreshold_6G) {
                             AlertPack ap = new AlertPack();
 
