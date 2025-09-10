@@ -316,58 +316,17 @@ public class TeamsPlugin {
                     long heapUsedThreshold_4G = conf.getLong("ext_plugin_4G_heap_used_threshold", 0);
                     long heapUsed = pack.data.getLong(CounterConstants.JAVA_HEAP_USED);
 
-                    if("/gprtwas1/wise_prd11".equals(objName) || "/gprtwas1/wise_prd12".equals(objName) || "/gprtwas2/wise_prd21".equals(objName) || "/gprtwas2/wise_prd22".equals(objName)) {
-                        if (heapUsedThreshold_8G != 0 && heapUsed > heapUsedThreshold_8G) {
-                            AlertPack ap = new AlertPack();
-
-                            ap.level = AlertLevel.FATAL;
-                            ap.objHash = objHash;
-                            ap.title = "Heap used exceed a threshold.";
-                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
-                            ap.time = System.currentTimeMillis();
-                            ap.objType = objType;
-
-                            alert(ap);
-                        }
-                    } else if("/pEacA1/PFLS_LIVE1".equals(objName) || "/pEacA1/PFLS_LIVE2".equals(objName)) {
-                        if (heapUsedThreshold_6G != 0 && heapUsed > heapUsedThreshold_6G) {
-                            AlertPack ap = new AlertPack();
-
-                            ap.level = AlertLevel.FATAL;
-                            ap.objHash = objHash;
-                            ap.title = "Heap used exceed a threshold.";
-                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
-                            ap.time = System.currentTimeMillis();
-                            ap.objType = objType;
-
-                            alert(ap);
-                        }
-                    }else if("/cjwas03/expwas01".equals(objName) || "/cjwas04/expwas02".equals(objName) || "/cjwas03/qmswas1".equals(objName) || "/cjwas04/qmswas2".equals(objName) || "/cjwas03/amsprd_1".equals(objName) || "/cjwas04/amsprd_2".equals(objName) || "/cjwas03/cmsprd_1".equals(objName) || "/cjwas04/cmsprd_2".equals(objName) || "/cjirisap1/bmis_was1".equals(objName) || "/cjirisap1/iris_was1".equals(objName) || "/cjemap/bmis_was2".equals(objName) || "/cjemap/iris_was2".equals(objName)) {
-                        if (heapUsedThreshold_4G != 0 && heapUsed > heapUsedThreshold_4G) {
-                            AlertPack ap = new AlertPack();
-
-                            ap.level = AlertLevel.FATAL;
-                            ap.objHash = objHash;
-                            ap.title = "Heap used exceed a threshold.";
-                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
-                            ap.time = System.currentTimeMillis();
-                            ap.objType = objType;
-
-                            alert(ap);
-                        }
-                    } else {
-                        if (heapUsedThreshold != 0 && heapUsed > heapUsedThreshold) {
-                            AlertPack ap = new AlertPack();
-
-                            ap.level = AlertLevel.FATAL;
-                            ap.objHash = objHash;
-                            ap.title = "Heap used exceed a threshold.";
-                            ap.message = objName + " Heap uesd(" + heapUsed + " M) exceed a threshold.";
-                            ap.time = System.currentTimeMillis();
-                            ap.objType = objType;
-
-                            alert(ap);
-                        }
+                    long thresholdToUse = getHeapThresholdForServer(objName, heapUsedThreshold, heapUsedThreshold_8G, heapUsedThreshold_6G, heapUsedThreshold_4G);
+                    
+                    if (thresholdToUse != 0 && heapUsed > thresholdToUse) {
+                        AlertPack ap = new AlertPack();
+                        ap.level = AlertLevel.FATAL;
+                        ap.objHash = objHash;
+                        ap.title = "Heap used exceed a threshold.";
+                        ap.message = objName + " Heap used(" + heapUsed + " M) exceed a threshold.";
+                        ap.time = System.currentTimeMillis();
+                        ap.objType = objType;
+                        alert(ap);
                     }
 
                     if (gcTimeThreshold != 0 && gcTime > gcTimeThreshold) {
@@ -646,6 +605,35 @@ public class TeamsPlugin {
     private static <T> T safeGet(SupplierWithEx<T> sup, T fallback) {
         try { return sup.get(); } catch (Throwable t) { return fallback; }
     }
+
+    // 메모리 서버 그룹
+    private long getHeapThresholdForServer(String objName, long defaultThreshold, long threshold8G, long threshold6G, long threshold4G) {
+        String servers8G = conf.getValue("ext_plugin_heap_8g_servers", "/gprtwas1/wise_prd11,/gprtwas1/wise_prd12,/gprtwas2/wise_prd21,/gprtwas2/wise_prd22");
+        String servers6G = conf.getValue("ext_plugin_heap_6g_servers", "/pEacA1/PFLS_LIVE1,/pEacA2/PFLS_LIVE2");
+        String servers4G = conf.getValue("ext_plugin_heap_4g_servers", "/cjwas03/expwas01,/cjwas04/expwas02,/cjwas03/qmswas1,/cjwas04/qmswas2,/cjwas03/amsprd_1,/cjwas04/amsprd_2,/cjwas03/cmsprd_1,/cjwas04/cmsprd_2,/cjirisap1/bmis_was1,/cjirisap1/iris_was1,/cjemap/bmis_was2,/cjemap/iris_was2");
+        
+        if (isServerInList(objName, servers8G)) {
+            return threshold8G;
+        } else if (isServerInList(objName, servers6G)) {
+            return threshold6G;
+        } else if (isServerInList(objName, servers4G)) {
+            return threshold4G;
+        } else {
+            return defaultThreshold;
+        }
+    }
+    
+    private boolean isServerInList(String objName, String serverList) {
+        if (isEmpty(serverList)) return false;
+        String[] servers = serverList.split(",");
+        for (String server : servers) {
+            if (server.trim().equals(objName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @FunctionalInterface
     interface SupplierWithEx<T> { T get() throws Exception; }
 }
