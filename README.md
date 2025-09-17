@@ -30,20 +30,47 @@
 * Example
 ```
 # External Interface (Telegram)
-ext_plugin_telegram_send_alert=true
+# Telegram 메시지 발송 여부 (true / false) - 기본 값은 false
+ext_plugin_telegram_send_alert=false
+# xlog exception alert - 기본 값은 false
+ext_plugin_exception_xlog_telegram_enabled=false
+# xlog system alert - 기본 값은 false
+ext_plugin_exception_xlog_wise_telegram_enabled=false
+ext_plugin_exception_xlog_tms_telegram_enabled=true
+ext_plugin_exception_xlog_exp_telegram_enabled=true
+ext_plugin_exception_xlog_igap_telegram_enabled=true
+ext_plugin_exception_xlog_esc_telegram_enabled=true
+ext_plugin_exception_xlog_mpro_telegram_enabled=true
+ext_plugin_exception_xlog_cis_telegram_enabled=true
+ext_plugin_exception_xlog_ods_telegram_enabled=true
+ext_plugin_exception_xlog_cpl_telegram_enabled=true
+ext_plugin_exception_xlog_qms_telegram_enabled=true
+ext_plugin_exception_xlog_meta_telegram_enabled=true
+ext_plugin_exception_xlog_bmis_telegram_enabled=true
+ext_plugin_exception_xlog_iris_telegram_enabled=true
+ext_plugin_exception_xlog_pfls_telegram_enabled=true
+ext_plugin_exception_xlog_ams_telegram_enabled=true
+ext_plugin_exception_xlog_cms_telegram_enabled=true
+ext_plugin_exception_xlog_fta_telegram_enabled=true
+ext_plugin_exception_xlog_hanaro_telegram_enabled=true
+# 로깅 여부 - 기본 값은 false
 ext_plugin_telegram_debug=true
-ext_plugin_telegram_level=0
-ext_plugin_telegram_bot_token=185780011:AAGVaPyWCoZ8y1mHZEK1jFmbLwpcjlsJoJY
-ext_plugin_telegram_chat_id=@ScouterDemoChannel
-
-ext_plugin_elapsed_time_threshold=5000
-ext_plugin_gc_time_threshold=5000
-ext_plugin_thread_count_threshold=300
-
-ext_plugin_ignore_name_patterns=myTomcat1
-ext_plugin_ignore_title_patterns=Elapsed,CONNECTION,activat*
-ext_plugin_ignore_message_patterns=*(/v1/common/user/testuser)*
-ext_plugin_ignore_continuous_dup_alert=true
+# 수신 레벨(0 : INFO, 1 : WARN, 2 : ERROR, 3 : FATAL) - 기본 값은 0
+ext_plugin_telegram_level=2
+# Telegram Bot token by 1419010876:AAEdFuDPSFyhH_dhbMYFRc_z9nTfdUNNTbk
+ext_plugin_telegram_bot_token=1419010876:AAEdFuDPSFyhH_dhbMYFRc_z9nTfdUNNTbk
+# chat_id(Integer) 또는 채널 이름(String) by 298816613 or -1001344862058
+ext_plugin_telegram_chat_id=-1001344862058
+# Alert 메시지 발송에서 제외할 NAME 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
+ext_plugin_ignore_telegram_name_patterns=
+# Alert 메시지 발송에서 제외할 LEVEL 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
+ext_plugin_ignore_telegram_level_patterns=
+# Alert 메시지 발송에서 제외할 TITLE 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
+ext_plugin_ignore_telegram_title_patterns=Elapsed,CONNECTION,activat*
+# Alert 메시지 발송에서 제외할 MESSAGE 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
+ext_plugin_ignore_telegram_message_patterns=/theme/cheiljedang/summary/dashboard*,/common/bridge*,/theme/cheiljedang/main/addMember*,*/errorPage/page_not_found*,*warning slow sql*,*UserHandleException*
+# 연속된 동일 Alert을 1시간 동안 제외 - 기본 값은 false
+ext_plugin_ignore_telegram_continuous_dup_alert=true
 ```
 
 ### Dependencies
