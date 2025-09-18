@@ -57,10 +57,7 @@ ext_plugin_exception_xlog_hanaro_telegram_enabled=true
 ext_plugin_telegram_debug=true
 # 수신 레벨(0 : INFO, 1 : WARN, 2 : ERROR, 3 : FATAL) - 기본 값은 0
 ext_plugin_telegram_level=2
-# Telegram Bot token by 1419010876:AAEdFuDPSFyhH_dhbMYFRc_z9nTfdUNNTbk
-ext_plugin_telegram_bot_token=1419010876:AAEdFuDPSFyhH_dhbMYFRc_z9nTfdUNNTbk
-# chat_id(Integer) 또는 채널 이름(String) by 298816613 or -1001344862058
-ext_plugin_telegram_chat_id=-1001344862058
+
 # Alert 메시지 발송에서 제외할 NAME 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
 ext_plugin_ignore_telegram_name_patterns=
 # Alert 메시지 발송에서 제외할 LEVEL 패턴 목록 (',' 구분자 사용, * (wildcard) 사용 가능)
